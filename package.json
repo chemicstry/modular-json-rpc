@@ -1,0 +1,26 @@
+{
+  "name": "modular-json-rcp",
+  "version": "1.0.0",
+  "description": "Modular JSON-RPC 2.0 library that allows easy addition of transports",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chemicstry/modular-json-rcp.git"
+  },
+  "author": "chemicstry <chemicstry@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chemicstry/modular-json-rcp/issues"
+  },
+  "homepage": "https://github.com/chemicstry/modular-json-rcp#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.0.5",
+    "typescript": "^2.7.2"
+  }
+}
