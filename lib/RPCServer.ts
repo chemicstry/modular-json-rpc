@@ -3,7 +3,10 @@ import {
     ParseRPCMessage,
     RPCMessage,
     RPCRequest,
-    RPCResponse
+    RPCResponse,
+    JSONParseError,
+    InvalidMessageError,
+    InvalidRequestError
 } from './Message';
 import { RPCMethodError } from './Defines';
 import { clearTimeout } from 'timers';
@@ -56,7 +59,7 @@ abstract class RPCServerBase
             else {
                 this.send(new RPCResponse(req.id, undefined, {
                     code: -32603,
-                    message: e,
+                    message: e.name + ': ' + e.message,
                 }));
             }
 
@@ -82,20 +85,34 @@ class RPCServer extends RPCServerBase
         this.transport.SetDownstreamCb((data: string) => this.parseMessage(data));
     }
 
-    // Parses received string and handles as request or response
     parseMessage(data: string)
     {
         try {
             var message = ParseRPCMessage(data);
         } catch (e) {
-            console.log(e);
+            if (e instanceof JSONParseError) {
+                this.send(new RPCResponse(null, undefined, {
+                    code: -32700,
+                    message: 'Parse error',
+                }));
+            } else {
+                this.send(new RPCResponse(null, undefined, {
+                    code: -32600,
+                    message: 'Invalid Request',
+                }));
+            }
+
             return;
         }
 
         if (message instanceof RPCRequest)
             this.handleRequest(message);
-        else
-            console.log("Received unhandled message type");
+        else {
+            this.send(new RPCResponse(null, undefined, {
+                code: -32600,
+                message: 'Invalid Request',
+            }));
+        }
     }
 
     send(msg: RPCMessage): void
