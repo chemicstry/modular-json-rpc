@@ -4,6 +4,8 @@ import {
     RPCMessage,
     RPCRequest,
     RPCResponse,
+    RPCResponseError,
+    RPCResponseResult,
     JSONParseError,
     InvalidMessageError,
     InvalidRequestError
@@ -31,14 +33,13 @@ abstract class RPCServerBase
     handleRequest(req: RPCRequest)
     {
         if (this.handlers[req.method] === undefined) {
-            this.send(new RPCResponse(req.id, undefined, {
+            this.send(new RPCResponseError(req.id, {
                 code: -32601,
                 message: 'Method not found'
             }));
 
             return;
         }
-
 
         try {
             // Expand arguments if it is array
@@ -49,7 +50,7 @@ abstract class RPCServerBase
         } catch (e) {
             // Send a custom error
             if (e instanceof RPCMethodError) {
-                this.send(new RPCResponse(req.id, undefined, {
+                this.send(new RPCResponseError(req.id, {
                     code: e.code,
                     message: e.message,
                     data: e.data
@@ -57,7 +58,7 @@ abstract class RPCServerBase
             }
             // Send internal server error
             else {
-                this.send(new RPCResponse(req.id, undefined, {
+                this.send(new RPCResponseError(req.id, {
                     code: -32603,
                     message: e.name + ': ' + e.message,
                 }));
@@ -68,7 +69,7 @@ abstract class RPCServerBase
 
         // Do not send result if request was notification
         if (!req.isNotification())
-            this.send(new RPCResponse(req.id, result));
+            this.send(new RPCResponseResult(req.id, result));
     }
 
     abstract send(msg: RPCMessage): void;
@@ -91,12 +92,12 @@ class RPCServer extends RPCServerBase
             var message = ParseRPCMessage(data);
         } catch (e) {
             if (e instanceof JSONParseError) {
-                this.send(new RPCResponse(null, undefined, {
+                this.send(new RPCResponseError(null, {
                     code: -32700,
                     message: 'Parse error',
                 }));
             } else {
-                this.send(new RPCResponse(null, undefined, {
+                this.send(new RPCResponseError(null, {
                     code: -32600,
                     message: 'Invalid Request',
                 }));
@@ -108,7 +109,7 @@ class RPCServer extends RPCServerBase
         if (message instanceof RPCRequest)
             this.handleRequest(message);
         else {
-            this.send(new RPCResponse(null, undefined, {
+            this.send(new RPCResponseError(null, {
                 code: -32600,
                 message: 'Invalid Request',
             }));

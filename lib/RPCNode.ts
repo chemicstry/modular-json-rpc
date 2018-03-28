@@ -7,6 +7,8 @@ import {
     RPCRequest,
     RPCResponse,
 } from './Message';
+import { EventEmitter } from 'events';
+import { JSONRPC_TIMEOUT } from './Defines';
 
 // Hack for multiple inheritance
 function applyMixins(derivedCtor: any, baseCtors: any[]) {
@@ -19,16 +21,17 @@ function applyMixins(derivedCtor: any, baseCtors: any[]) {
     }); 
 }
 
-class RPCNode implements RPCClientBase, RPCServerBase
+class RPCNode extends EventEmitter implements RPCClientBase, RPCServerBase
 {
     // RPCClientBase
-    requestId: number;
-    requests: RequestMap;
+    requestId: number = 0;
+    requests: RequestMap = {};
+    requestTimeout: number = JSONRPC_TIMEOUT;
     call: (name: string, ...params: any[]) => Promise<any>;
     notify: (name: string, ...params: any[]) => void;
     handleResponse: (res: RPCResponse) => void;
     // RPCServerBase
-    handlers: MethodHandlerMap;
+    handlers: MethodHandlerMap = {};
     bind: (name: string, handler: MethodHandler) => void;
     handleRequest: (req: RPCRequest) => void;
 
@@ -36,6 +39,7 @@ class RPCNode implements RPCClientBase, RPCServerBase
     private transport: Transport;
 
     constructor(transport: Transport) {
+        super();
         this.transport = transport;
         this.transport.SetDownstreamCb((data: string) => this.parseMessage(data));
     }
@@ -46,16 +50,14 @@ class RPCNode implements RPCClientBase, RPCServerBase
         try {
             var message = ParseRPCMessage(data);
         } catch (e) {
-            console.log(e);
+            this.emit('error', new Error(`Message parse failed: ${e.message}`));
             return;
         }
 
-        if (message instanceof RPCResponse)
-            this.handleResponse(message);
-        else if (message instanceof RPCRequest)
-            this.handleRequest(message);
+        if (message.isResponse())
+            this.handleResponse(<RPCResponse>message);
         else
-            console.log("Received unhandled message type");
+            this.handleRequest(<RPCRequest>message);
     }
 
     send(msg: RPCMessage): void

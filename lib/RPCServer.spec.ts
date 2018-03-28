@@ -5,8 +5,8 @@ import { RPCServer } from './RPCServer';
 import { RPCMethodError } from './Defines';
 
 describe('RPCServer', () => {
-    it('Should handle valid request with array params', () => {
-        let downstreamcb: TransportCb = (data: string) => {};
+    it('Should handle valid request when request has array params', () => {
+        let downstreamcb: any;
 
         // Setup RPCServer with dummy transport
         let server = new RPCServer({
@@ -30,8 +30,8 @@ describe('RPCServer', () => {
         downstreamcb('{"jsonrpc":"2.0","id":10,"method":"test","params":[5,15]}');
     });
 
-    it('Should handle valid request with object params', () => {
-        let downstreamcb: TransportCb = (data: string) => {};
+    it('Should handle valid request when request has object params', () => {
+        let downstreamcb: any;
 
         // Setup RPCServer with dummy transport
         let server = new RPCServer({
@@ -55,8 +55,8 @@ describe('RPCServer', () => {
         downstreamcb('{"jsonrpc":"2.0","id":10,"method":"test","params":{"a":5,"b":15}}');
     });
 
-    it('Should respond with method not found error', () => {
-        let downstreamcb: TransportCb = (data: string) => {};
+    it('Should respond with method not found error when request method is not bound', () => {
+        let downstreamcb: any;
 
         // Setup RPCServer with dummy transport
         let server = new RPCServer({
@@ -78,15 +78,14 @@ describe('RPCServer', () => {
         downstreamcb('{"jsonrpc":"2.0","id":10,"method":"test","params":{"a":5,"b":15}}');
     });
 
-    it('Should not respond to notification', () => {
-        let downstreamcb: TransportCb = (data: string) => {};
-
-        let called = false;
+    it('Should not respond when handling notification', () => {
+        let downstreamcb: any;
 
         // Setup RPCServer with dummy transport
         let server = new RPCServer({
             SendUpstream: (data: string) => {
-                called = true;
+                // Fail here, should not be called
+                assert.fail("Should not be called");
             },
             SetDownstreamCb: (cb: TransportCb) => downstreamcb = cb
         });
@@ -99,11 +98,11 @@ describe('RPCServer', () => {
         // call rpc method
         downstreamcb('{"jsonrpc":"2.0","method":"test","params":{"a":5,"b":15}}');
 
-        expect(called).to.equal(false);
+        expect(true).to.equal(true);
     });
 
-    it('Should respond with thrown instance of RPCMethodError', () => {
-        let downstreamcb: TransportCb = (data: string) => {};
+    it('Should respond with error when handler throws RPCMethodError', () => {
+        let downstreamcb: any;
 
         // Setup RPCServer with dummy transport
         let server = new RPCServer({
@@ -133,8 +132,8 @@ describe('RPCServer', () => {
         downstreamcb('{"jsonrpc":"2.0","id":10,"method":"test","params":[5,15]}');
     });
 
-    it('Should respond with internal server error due to invalid throw', () => {
-        let downstreamcb: TransportCb = (data: string) => {};
+    it('Should respond with internal server error when handler throws unknown error', () => {
+        let downstreamcb: any;
 
         // Setup RPCServer with dummy transport
         let server = new RPCServer({
@@ -161,8 +160,8 @@ describe('RPCServer', () => {
         downstreamcb('{"jsonrpc":"2.0","id":10,"method":"test","params":[5,15]}');
     });
 
-    it('Should respond with parse error due to invalid message', () => {
-        let downstreamcb: TransportCb = (data: string) => {};
+    it('Should respond with parse error when message is invalid json', () => {
+        let downstreamcb: any;
 
         // Setup RPCServer with dummy transport
         let server = new RPCServer({
@@ -184,8 +183,8 @@ describe('RPCServer', () => {
         downstreamcb('{"jsonrpc"broken:"2.0","id":10,"method":"test","params":[5,15]}');
     });
 
-    it('Should respond with invalid request due to invalid request object', () => {
-        let downstreamcb: TransportCb = (data: string) => {};
+    it('Should respond with invalid request when message is invalid JSON RPC request object', () => {
+        let downstreamcb: any;
 
         // Setup RPCServer with dummy transport
         let server = new RPCServer({
@@ -207,8 +206,8 @@ describe('RPCServer', () => {
         downstreamcb('{"jsonrpc":"2.0","id":10,"params":[5,15]}');
     });
 
-    it('Should respond with invalid request when response object is sent', () => {
-        let downstreamcb: TransportCb = (data: string) => {};
+    it('Should respond with invalid request when message is JSON RPC response object', () => {
+        let downstreamcb: any;
 
         // Setup RPCServer with dummy transport
         let server = new RPCServer({

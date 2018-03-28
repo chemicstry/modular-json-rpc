@@ -16,6 +16,16 @@ class RPCMessage
         if (id !== undefined)
             this.id = id;
     }
+
+    isRequest(): boolean
+    {
+        return (this instanceof RPCRequest);
+    }
+
+    isResponse(): boolean
+    {
+        return (this instanceof RPCResponseError || this instanceof RPCResponseResult);
+    }
 }
 
 // JSON-RPC error object
@@ -47,8 +57,32 @@ class RPCRequest extends RPCMessage
     }
 }
 
+class RPCResponseError extends RPCMessage
+{
+    error: RPCError;
+
+    constructor(id: RPCID, error: RPCError)
+    {
+        super(id);
+        this.error = error;
+    }
+}
+
+class RPCResponseResult extends RPCMessage
+{
+    result: any;
+
+    constructor(id: RPCID, result: any)
+    {
+        super(id);
+        this.result = result;
+    }
+}
+
+type RPCResponse = RPCResponseError | RPCResponseResult;
+
 // JSON-RPC response object
-class RPCResponse extends RPCMessage
+/*class RPCResponse extends RPCMessage
 {
     result?: any;
     error?: RPCError;
@@ -66,7 +100,7 @@ class RPCResponse extends RPCMessage
         else
             throw new Error("Result or error must exist in RPCResponse");
     }
-}
+}*/
 
 class JSONParseError extends Error {
     constructor() {
@@ -116,7 +150,7 @@ function ParseRPCMessage(msg: string): RPCRequest | RPCResponse
         if (data.id === undefined)
             throw new InvalidResponseError("id not found");
 
-        return new RPCResponse(data.id, data.result);
+        return new RPCResponseResult(data.id, data.result);
     }
     // Response error object
     else if (data.error) {
@@ -135,7 +169,7 @@ function ParseRPCMessage(msg: string): RPCRequest | RPCResponse
         if (data.error.data)
             error.data = data.error.data;
 
-        return new RPCResponse(data.id, undefined, error);
+        return new RPCResponseError(data.id, error);
     }
     // Invalid object
     else
@@ -147,6 +181,8 @@ export {
     RPCParams,
     RPCMessage,
     RPCError,
+    RPCResponseError,
+    RPCResponseResult,
     RPCRequest,
     RPCResponse,
     JSONParseError,
