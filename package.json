@@ -2,6 +2,7 @@
   "name": "modular-json-rcp",
   "version": "1.0.1",
   "description": "Modular JSON-RPC 2.0 library that allows easy addition of transports",
+  "keywords": ["jsonrpc", "json-rpc", "bidirectional", "json", "rpc", "ws", "websocket"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
