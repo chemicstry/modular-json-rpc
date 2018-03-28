@@ -13,7 +13,7 @@ declare class RPCNode extends EventEmitter implements RPCClientBase, RPCServerBa
     handleResponse(res: RPCResponse): void;
     handlers: MethodHandlerMap;
     bind(name: string, handler: MethodHandler): void;
-    handleRequest(req: RPCRequest): void;
+    handleRequest(req: RPCRequest): Promise<void>;
     private transport;
     constructor(transport: Transport);
     parseMessage(data: string): void;

@@ -30,7 +30,7 @@ abstract class RPCServerBase
         this.handlers[name] = handler;
     }
 
-    handleRequest(req: RPCRequest)
+    async handleRequest(req: RPCRequest)
     {
         if (this.handlers[req.method] === undefined) {
             this.send(new RPCResponseError(req.id, {
@@ -44,9 +44,9 @@ abstract class RPCServerBase
         try {
             // Expand arguments if it is array
             if (req.params instanceof Array)
-                var result = this.handlers[req.method](...req.params);
+                var result = await this.handlers[req.method](...req.params);
             else
-                var result = this.handlers[req.method](req.params);
+                var result = await this.handlers[req.method](req.params);
         } catch (e) {
             // Send a custom error
             if (e instanceof RPCMethodError) {

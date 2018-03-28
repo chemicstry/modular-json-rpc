@@ -14,7 +14,7 @@ class WSTransport {
             this.downstreamCb(message);
     }
     SendUpstream(data) {
-        this.ws.send(JSON.stringify(data));
+        this.ws.send(data);
     }
     SetDownstreamCb(cb) {
         this.downstreamCb = cb;

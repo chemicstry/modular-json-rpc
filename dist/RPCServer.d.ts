@@ -7,7 +7,7 @@ interface MethodHandlerMap {
 declare abstract class RPCServerBase {
     handlers: MethodHandlerMap;
     bind(name: string, handler: MethodHandler): void;
-    handleRequest(req: RPCRequest): void;
+    handleRequest(req: RPCRequest): Promise<void>;
     abstract send(msg: RPCMessage): void;
 }
 declare class RPCServer extends RPCServerBase {

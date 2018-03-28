@@ -24,7 +24,7 @@ class WSTransport implements Transport
     }
 
     SendUpstream(data: string): void {
-        this.ws.send(JSON.stringify(data));
+        this.ws.send(data);
     }
 
     SetDownstreamCb(cb: TransportCb): void {

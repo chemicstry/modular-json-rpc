@@ -39,7 +39,7 @@ class RPCNode extends EventEmitter implements RPCClientBase, RPCServerBase
     /* istanbul ignore next */
     bind(name: string, handler: MethodHandler) {};
     /* istanbul ignore next */
-    handleRequest(req: RPCRequest) {};
+    async handleRequest(req: RPCRequest) {};
 
     // Handles communications
     private transport: Transport;
