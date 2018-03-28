@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function test(str) {
-    return str + "!";
-}
-exports.test = test;
+const RPCClient_1 = require("./RPCClient");
+exports.RPCClient = RPCClient_1.RPCClient;
+const RPCServer_1 = require("./RPCServer");
+exports.RPCServer = RPCServer_1.RPCServer;
+const RPCNode_1 = require("./RPCNode");
+exports.RPCNode = RPCNode_1.RPCNode;
+const WSTransport_1 = require("./WSTransport");
+exports.WSTransport = WSTransport_1.WSTransport;

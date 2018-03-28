@@ -31,8 +31,8 @@ class RPCMessage
 // JSON-RPC error object
 class RPCError
 {
-    code: number;
-    message: string;
+    code: number = 0;
+    message: string = "";
     data?: any;
 }
 

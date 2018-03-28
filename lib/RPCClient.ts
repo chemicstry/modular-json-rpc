@@ -27,7 +27,7 @@ abstract class RPCClientBase extends EventEmitter
     requestTimeout: number = JSONRPC_TIMEOUT;
 
     // Calls remote RPC function
-    call(name: string, ...params: any[])
+    call(name: string, ...params: any[]): Promise<any>
     {
         let id = this.requestId++;
 

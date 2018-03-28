@@ -27,13 +27,13 @@ class RPCNode extends EventEmitter implements RPCClientBase, RPCServerBase
     requestId: number = 0;
     requests: RequestMap = {};
     requestTimeout: number = JSONRPC_TIMEOUT;
-    call: (name: string, ...params: any[]) => Promise<any>;
-    notify: (name: string, ...params: any[]) => void;
-    handleResponse: (res: RPCResponse) => void;
+    call(name: string, ...params: any[]) { return new Promise((res, rej) => {}); };
+    notify(name: string, ...params: any[]) {};
+    handleResponse(res: RPCResponse) {};
     // RPCServerBase
     handlers: MethodHandlerMap = {};
-    bind: (name: string, handler: MethodHandler) => void;
-    handleRequest: (req: RPCRequest) => void;
+    bind(name: string, handler: MethodHandler) {};
+    handleRequest(req: RPCRequest) {};
 
     // Handles communications
     private transport: Transport;
