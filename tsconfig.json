@@ -55,6 +55,7 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
   "exclude": [
-    "**/*.spec.ts"                            /* Exclude test from build */
+    "**/*.spec.ts",                           /* Exclude test from build */
+    "./dist"                                  /* Exclude built files */
   ]
 }

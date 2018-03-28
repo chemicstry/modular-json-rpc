@@ -23,16 +23,22 @@ function applyMixins(derivedCtor: any, baseCtors: any[]) {
 
 class RPCNode extends EventEmitter implements RPCClientBase, RPCServerBase
 {
+    // Hacks to achieve multiple inheritance
     // RPCClientBase
     requestId: number = 0;
     requests: RequestMap = {};
     requestTimeout: number = JSONRPC_TIMEOUT;
+    /* istanbul ignore next */
     call(name: string, ...params: any[]) { return new Promise((res, rej) => {}); };
+    /* istanbul ignore next */
     notify(name: string, ...params: any[]) {};
+    /* istanbul ignore next */
     handleResponse(res: RPCResponse) {};
     // RPCServerBase
     handlers: MethodHandlerMap = {};
+    /* istanbul ignore next */
     bind(name: string, handler: MethodHandler) {};
+    /* istanbul ignore next */
     handleRequest(req: RPCRequest) {};
 
     // Handles communications

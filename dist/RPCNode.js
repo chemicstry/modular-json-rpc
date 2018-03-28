@@ -18,6 +18,7 @@ function applyMixins(derivedCtor, baseCtors) {
 class RPCNode extends events_1.EventEmitter {
     constructor(transport) {
         super();
+        // Hacks to achieve multiple inheritance
         // RPCClientBase
         this.requestId = 0;
         this.requests = {};
@@ -27,14 +28,19 @@ class RPCNode extends events_1.EventEmitter {
         this.transport = transport;
         this.transport.SetDownstreamCb((data) => this.parseMessage(data));
     }
+    /* istanbul ignore next */
     call(name, ...params) { return new Promise((res, rej) => { }); }
     ;
+    /* istanbul ignore next */
     notify(name, ...params) { }
     ;
+    /* istanbul ignore next */
     handleResponse(res) { }
     ;
+    /* istanbul ignore next */
     bind(name, handler) { }
     ;
+    /* istanbul ignore next */
     handleRequest(req) { }
     ;
     // Parses received string and handles as request or response

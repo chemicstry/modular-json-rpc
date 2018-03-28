@@ -57,7 +57,7 @@ describe('RPCClient', () => {
 
         // Setup RPCNode with dummy transport
         let node = new RPCNode({
-            SendUpstream: (data: string) => { },
+            SendUpstream: /* istanbul ignore next */ (data: string) => { },
             SetDownstreamCb: (cb: TransportCb) => downstreamcb = cb
         });
 

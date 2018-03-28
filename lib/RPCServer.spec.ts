@@ -83,7 +83,7 @@ describe('RPCServer', () => {
 
         // Setup RPCServer with dummy transport
         let server = new RPCServer({
-            SendUpstream: (data: string) => {
+            SendUpstream: /* istanbul ignore next */ (data: string) => {
                 // Fail here, should not be called
                 assert.fail("Should not be called");
             },

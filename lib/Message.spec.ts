@@ -130,6 +130,19 @@ describe('RPCResponseError', () => {
                 }
             });
         });
+
+        it('Should initialise default values when constructed without params', () => {
+            let res = new RPCResponseError(69, new RPCError());
+    
+            expect(res).to.deep.equal({
+                jsonrpc: "2.0",
+                id: 69,
+                error: {
+                    code: 0,
+                    message: "",
+                }
+            });
+        });
     });
 });
 

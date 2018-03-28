@@ -82,7 +82,7 @@ describe('RPCClient', () => {
 
             // Setup RPCClient with dummy transport
             let client = new RPCClient({
-                SendUpstream: (data: string) => {
+                SendUpstream: /* istanbul ignore next */ (data: string) => {
                     // Do nothing
                 },
                 SetDownstreamCb: (cb: TransportCb) => downstreamcb = cb
@@ -105,7 +105,7 @@ describe('RPCClient', () => {
 
             // Setup RPCClient with dummy transport
             let client = new RPCClient({
-                SendUpstream: (data: string) => { },
+                SendUpstream: /* istanbul ignore next */ (data: string) => { },
                 SetDownstreamCb: (cb: TransportCb) => downstreamcb = cb
             });
 
@@ -127,7 +127,7 @@ describe('RPCClient', () => {
 
             // Setup RPCClient with dummy transport
             let client = new RPCClient({
-                SendUpstream: (data: string) => { },
+                SendUpstream: /* istanbul ignore next */ (data: string) => { },
                 SetDownstreamCb: (cb: TransportCb) => downstreamcb = cb
             });
 
@@ -149,7 +149,7 @@ describe('RPCClient', () => {
 
             // Setup RPCClient with dummy transport
             let client = new RPCClient({
-                SendUpstream: (data: string) => { },
+                SendUpstream: /* istanbul ignore next */ (data: string) => { },
                 SetDownstreamCb: (cb: TransportCb) => downstreamcb = cb
             });
 
@@ -171,7 +171,7 @@ describe('RPCClient', () => {
 
             // Setup RPCClient with dummy transport
             let client = new RPCClient({
-                SendUpstream: (data: string) => { },
+                SendUpstream: /* istanbul ignore next */ (data: string) => { },
                 SetDownstreamCb: (cb: TransportCb) => downstreamcb = cb
             });
 
