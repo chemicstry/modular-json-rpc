@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/chemicstry/modular-json-rcp.svg?branch=master)](https://travis-ci.org/chemicstry/modular-json-rcp) [![Coverage Status](https://coveralls.io/repos/github/chemicstry/modular-json-rcp/badge.svg?branch=master)](https://coveralls.io/github/chemicstry/modular-json-rcp?branch=master)
+[![Build Status](https://travis-ci.org/chemicstry/modular-json-rpc.svg?branch=master)](https://travis-ci.org/chemicstry/modular-json-rcp) [![Coverage Status](https://coveralls.io/repos/github/chemicstry/modular-json-rpc/badge.svg?branch=master)](https://coveralls.io/github/chemicstry/modular-json-rpc?branch=master)
 
 # modular-json-rcp
 modular-json-rpc is a JSON-RPC 2.0 library.
