@@ -111,12 +111,8 @@ function ParseRPCMessage(msg) {
             throw new InvalidRequestError("method is not a string");
         return new RPCRequest(data.id, data.method, data.params);
     }
-    else if (data.result) {
-        if (data.id === undefined)
-            throw new InvalidResponseError("id not found");
-        return new RPCResponseResult(data.id, data.result);
-    }
-    else if (data.error) {
+    // Response error object
+    else if (data.error !== undefined) {
         if (typeof data.error.code !== "number")
             throw new InvalidResponseError("error code is not a number");
         if (typeof data.error.message !== "string")
@@ -130,6 +126,13 @@ function ParseRPCMessage(msg) {
             error.data = data.error.data;
         return new RPCResponseError(data.id, error);
     }
+    // Response success object
+    else if (data.result !== undefined) {
+        if (data.id === undefined)
+            throw new InvalidResponseError("id not found");
+        return new RPCResponseResult(data.id, data.result);
+    }
+    // Invalid object
     else
         throw new InvalidMessageError("unknown message type");
 }

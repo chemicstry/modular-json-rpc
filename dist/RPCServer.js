@@ -43,6 +43,7 @@ class RPCServerBase {
                         data: e.data
                     }));
                 }
+                // Send internal server error
                 else {
                     this.send(new Message_1.RPCResponseError(req.id, {
                         code: -32603,
