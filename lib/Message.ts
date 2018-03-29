@@ -145,15 +145,8 @@ function ParseRPCMessage(msg: string): RPCRequest | RPCResponse
         
         return new RPCRequest(data.id, data.method, data.params);
     }
-    // Response success object
-    else if (data.result) {
-        if (data.id === undefined)
-            throw new InvalidResponseError("id not found");
-
-        return new RPCResponseResult(data.id, data.result);
-    }
     // Response error object
-    else if (data.error) {
+    else if (data.error !== undefined) {
         if (typeof data.error.code !== "number")
             throw new InvalidResponseError("error code is not a number");
 
@@ -170,6 +163,13 @@ function ParseRPCMessage(msg: string): RPCRequest | RPCResponse
             error.data = data.error.data;
 
         return new RPCResponseError(data.id, error);
+    }
+    // Response success object
+    else if (data.result !== undefined) {
+        if (data.id === undefined)
+            throw new InvalidResponseError("id not found");
+
+        return new RPCResponseResult(data.id, data.result);
     }
     // Invalid object
     else
