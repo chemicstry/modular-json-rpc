@@ -192,6 +192,16 @@ describe('ParseRPCMessage', () => {
         });
     });
 
+    it('Should return a RPCResponseResult when result is empty string', () => {
+        let request = '{"jsonrpc": "2.0", "result": "", "id": 69}';
+
+        expect(ParseRPCMessage(request)).to.deep.equal({
+            jsonrpc: "2.0",
+            result: "",
+            id: 69
+        });
+    });
+
     it('Should return a RPCResponseError when provided with a valid JSON RPC response error object', () => {
         let request = '{"jsonrpc": "2.0", "error": {"code": -32700, "message": "Parse error"}, "id": 69}';
 
