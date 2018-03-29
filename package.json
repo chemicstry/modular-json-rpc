@@ -1,6 +1,6 @@
 {
   "name": "modular-json-rpc",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Modular JSON-RPC 2.0 library that allows easy addition of transports",
   "keywords": [
     "jsonrpc",
